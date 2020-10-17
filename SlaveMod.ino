@@ -80,7 +80,14 @@ void loop(void)
       }
     }
     else {
-      MotorKomut = 0;
+      while (1) {
+        digitalWrite(Yon2, HIGH);
+        int yukariLimitDurumu = digitalRead(yukariLimit);
+        if (yukariLimitDurumu == LOW) {
+          MotorKomut = 0;
+          break;
+        }
+      }  
     }
   }
   else if (MotorCalisiyor == 1 && MotorKomut == 0 ) {
@@ -253,7 +260,7 @@ void inerkenDurdur() {
 void kalkarkenDurdur() {
   digitalWrite(Yon2, LOW);
   //BitisTetikleme = true;
-  digitalWrite(BitisTetik,HIGH);
+  digitalWrite(BitisTetik, HIGH);
   TCNT1 = 64750;// 65535-64750(1024 prescaler)=~50 ms --- 1 sn 15625
   TIFR1 |= (1 << TOV1) ;//timer1 taşma bayragı sıfırlanır.
   TIMSK1 |= (1 << TOIE1) ;// Timer1 taşma kesmesi aktif
